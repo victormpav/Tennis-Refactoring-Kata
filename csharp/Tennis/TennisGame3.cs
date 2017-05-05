@@ -12,41 +12,41 @@ namespace Tennis
         private const string ADVANTAGE_SCORE = "Advantage ";
         private const string WINER_MATCH = "Win for ";
         private const string PLAYER_ONE_NAME = "player1";
-        private int p2;
-        private int p1;
-        private string p1N;
+        private int playerTwoScore;
+        private int playerOneScore;
+        private string playerOneName;
         private string p2N;
 
         public TennisGame3(string player1Name, string player2Name)
         {
-            this.p1N = player1Name;
+            this.playerOneName = player1Name;
             this.p2N = player2Name;
         }
 
         public string GetScore()
         {
-            string s;
-            if ((p1 < 4 && p2 < 4) && (p1 + p2 < 6))
+            string score;
+            if ((playerOneScore < 4 && playerTwoScore < 4) && (playerOneScore + playerTwoScore < 6))
             {
-                string[] p = { LOVE_SCORE, FIFTEEN_SCORE, THIRTY_SCORE, FORTY_SCORE };
-                s = p[p1];
-                return (p1 == p2) ? s + ALL_SCORE : s + SOCORE_SEPARATOR + p[p2];
+                string[] scoresNames = { LOVE_SCORE, FIFTEEN_SCORE, THIRTY_SCORE, FORTY_SCORE };
+                score = scoresNames[playerOneScore];
+                return (playerOneScore == playerTwoScore) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + scoresNames[playerTwoScore];
             }
             else
             {
-                if (p1 == p2)
+                if (playerOneScore == playerTwoScore)
                     return DEUCE_SCORE;
-                s = p1 > p2 ? p1N : p2N;
-                return ((p1 - p2) * (p1 - p2) == 1) ? ADVANTAGE_SCORE + s : WINER_MATCH + s;
+                score = playerOneScore > playerTwoScore ? playerOneName : p2N;
+                return ((playerOneScore - playerTwoScore) * (playerOneScore - playerTwoScore) == 1) ? ADVANTAGE_SCORE + score : WINER_MATCH + score;
             }
         }
 
         public void WonPoint(string playerName)
         {
             if (playerName == PLAYER_ONE_NAME)
-                this.p1 += 1;
+                this.playerOneScore += 1;
             else
-                this.p2 += 1;
+                this.playerTwoScore += 1;
         }
 
     }
