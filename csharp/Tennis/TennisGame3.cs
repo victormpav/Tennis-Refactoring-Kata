@@ -6,21 +6,29 @@ namespace Tennis
         private const string FIFTEEN_SCORE = "Fifteen";
         private const string THIRTY_SCORE = "Thirty";
         private const string FORTY_SCORE = "Forty";
+
+        string[] SCORE_NAMES_MAPPING = { LOVE_SCORE, FIFTEEN_SCORE, THIRTY_SCORE, FORTY_SCORE };
+
         private const string ALL_SCORE = "-All";
         private const string SOCORE_SEPARATOR = "-";
+
         private const string DEUCE_SCORE = "Deuce";
+        
         private const string ADVANTAGE_SCORE = "Advantage ";
         private const string WINER_MATCH = "Win for ";
+
         private const string PLAYER_ONE_NAME = "player1";
+        
         private int playerTwoScore;
         private int playerOneScore;
+        
         private string playerOneName;
-        private string p2N;
+        private string playerTwoNameS;
 
         public TennisGame3(string player1Name, string player2Name)
         {
             this.playerOneName = player1Name;
-            this.p2N = player2Name;
+            this.playerTwoNameS = player2Name;
         }
 
         public string GetScore()
@@ -28,15 +36,14 @@ namespace Tennis
             string score;
             if ((playerOneScore < 4 && playerTwoScore < 4) && (playerOneScore + playerTwoScore < 6))
             {
-                string[] scoresNames = { LOVE_SCORE, FIFTEEN_SCORE, THIRTY_SCORE, FORTY_SCORE };
-                score = scoresNames[playerOneScore];
-                return (playerOneScore == playerTwoScore) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + scoresNames[playerTwoScore];
+                score = SCORE_NAMES_MAPPING[playerOneScore];
+                return (playerOneScore == playerTwoScore) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwoScore];
             }
             else
             {
                 if (playerOneScore == playerTwoScore)
                     return DEUCE_SCORE;
-                score = playerOneScore > playerTwoScore ? playerOneName : p2N;
+                score = playerOneScore > playerTwoScore ? playerOneName : playerTwoNameS;
                 return ((playerOneScore - playerTwoScore) * (playerOneScore - playerTwoScore) == 1) ? ADVANTAGE_SCORE + score : WINER_MATCH + score;
             }
         }
