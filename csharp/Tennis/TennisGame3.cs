@@ -37,7 +37,7 @@ namespace Tennis
             if ((playerOneScore < 4 && playerTwoScore < 4) && (playerOneScore + playerTwoScore < 6))
             {
                 score = SCORE_NAMES_MAPPING[playerOneScore];
-                return (playerOneScore == playerTwoScore) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwoScore];
+                return (AreTied()) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwoScore];
             }
             else
             {
@@ -46,6 +46,11 @@ namespace Tennis
                 score = playerOneScore > playerTwoScore ? playerOneName : playerTwoNameS;
                 return ((playerOneScore - playerTwoScore) * (playerOneScore - playerTwoScore) == 1) ? ADVANTAGE_SCORE + score : WINER_MATCH + score;
             }
+        }
+
+        private bool AreTied()
+        {
+            return playerOneScore == playerTwoScore;
         }
 
         public void WonPoint(string playerName)
