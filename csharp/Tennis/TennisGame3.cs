@@ -25,20 +25,23 @@ namespace Tennis
 
         private readonly Player playerOne;
         private readonly Player playerTwo;
+        private readonly Match match;
 
         public TennisGame3(string playerOneName, string playerTwoName)
         {
             playerOne = new Player(playerOneName);
             playerTwo = new Player(playerTwoName);
+
+            match = new Match(playerOne, playerTwo);
         }
 
         public string GetScore()
         {
             string score;
-            if ((PlayerScoresAreBelowAdvantageThreshold()) && PlayersAreNotTiedAtFourty())
+            if ((PlayerScoresAreBelowAdvantageThreshold(playerOne, playerTwo)) && PlayersAreNotTiedAtFourty(playerOne, playerTwo))
             {
                 score = SCORE_NAMES_MAPPING[playerOne.score];
-                if (playerOne.IsTiedWith(playerTwo))
+                if (match.Tied())
                 {
                     score += ALL_SCORE;
                 }
@@ -49,15 +52,15 @@ namespace Tennis
             }
             else
             {
-                if (playerOne.IsTiedWith(playerTwo))
+                if (match.Tied())
                 {
                     score = DEUCE_SCORE;
                 }
                 else
                 {
-                    Player playerWithHighScore = GetPlayerWithHighScore(playerOne, playerTwo);
+                    Player playerWithHighScore = match.PlayerWithHighScore();
                     String highestScorePlayerName = playerWithHighScore.name;
-                    if (AbsoluteDiffrenceBetweenPlayers(playerOne, playerTwo) == 1)
+                    if (match.AbsoluteDiffrenceBetweenPlayers() == 1)
                     {
                         score = ADVANTAGE_SCORE + highestScorePlayerName;
                     }
@@ -71,35 +74,17 @@ namespace Tennis
             return score;
         }
 
-        private int AbsoluteDiffrenceBetweenPlayers(Player thePlayerOne, Player thePlayerTwo)
+
+
+
+        public bool PlayersAreNotTiedAtFourty(Player thePlayerOne, Player thePlayerTwo)
         {
-            return Math.Abs(thePlayerOne.score - thePlayerTwo.score);
+            return !(thePlayerOne.score == FORTY_POINTS && thePlayerTwo.score == FORTY_POINTS);
         }
 
-        private Player GetPlayerWithHighScore(Player thePlayerOne, Player thePlayerTwo)
+        private bool PlayerScoresAreBelowAdvantageThreshold(Player thePlayerOne, Player thePlayerTwo)
         {
-            Player player;
-
-            if (thePlayerOne.score > thePlayerTwo.score)
-            {
-                player = thePlayerOne;
-            }
-            else
-            {
-                player = thePlayerTwo;
-            }
-
-            return player;
-        }
-
-        public bool PlayersAreNotTiedAtFourty()
-        {
-            return !(playerOne.score == FORTY_POINTS && playerTwo.score == FORTY_POINTS);
-        }
-
-        private bool PlayerScoresAreBelowAdvantageThreshold()
-        {
-            return (playerOne.score < ADVANTAGE_THRESHOLD_POINTS) && (playerTwo.score < ADVANTAGE_THRESHOLD_POINTS);
+            return (thePlayerOne.score < ADVANTAGE_THRESHOLD_POINTS) && (thePlayerTwo.score < ADVANTAGE_THRESHOLD_POINTS);
         }
 
         public void WonPoint(string playerName)
