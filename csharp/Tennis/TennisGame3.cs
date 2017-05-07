@@ -37,37 +37,35 @@ namespace Tennis
         public string GetScore()
         {
             string score;
-            if ((AtLeastOnePlayerHasMoreThanFortyPoints(playerOne, playerTwo)) || PlayersTiedAtFourty(playerOne, playerTwo))
+
+            if (match.Tied())
             {
-                if (match.Tied())
+                if ((AtLeastOnePlayerHasMoreThanFortyPoints(playerOne, playerTwo)) || PlayersTiedAtFourty(playerOne, playerTwo))
                 {
                     score = DEUCE_SCORE;
                 }
                 else
                 {
-                    Player playerWithHighScore = match.PlayerWithHighScore();
-                    String highestScorePlayerName = playerWithHighScore.name;
-                    if (match.AbsoluteDiffrenceBetweenPlayers() == 1)
-                    {
-                        score = ADVANTAGE_SCORE + highestScorePlayerName;
-                    }
-                    else
-                    {
-                        score = WINER_MATCH + highestScorePlayerName;
-                    }
+                    score = SCORE_NAMES_MAPPING[playerOne.score] + ALL_SCORE;
                 }
             }
-            else
+            else if ((AtLeastOnePlayerHasMoreThanFortyPoints(playerOne, playerTwo)) || PlayersTiedAtFourty(playerOne, playerTwo))
             {
-                score = SCORE_NAMES_MAPPING[playerOne.score];
-                if (match.Tied())
+                Player playerWithHighScore = match.PlayerWithHighScore();
+                String highestScorePlayerName = playerWithHighScore.name;
+                if (match.AbsoluteDiffrenceBetweenPlayers() == 1)
                 {
-                    score += ALL_SCORE;
+                    score = ADVANTAGE_SCORE + highestScorePlayerName;
                 }
                 else
                 {
-                    score += SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwo.score];
+                    score = WINER_MATCH + highestScorePlayerName;
                 }
+                
+            }
+            else
+            {
+                score = SCORE_NAMES_MAPPING[playerOne.score] + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwo.score];
             }
 
             return score;
