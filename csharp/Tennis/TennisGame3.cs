@@ -36,7 +36,15 @@ namespace Tennis
             if ((PlayerScoresAreBelowAdvantageThreshold()) && PlayersAreNotTiedAtFourty())
             {
                 score = SCORE_NAMES_MAPPING[m_playerOne.score];
-                return (AreTied()) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[m_playerTwo.score];
+                if (AreTied())
+                {
+                    return score + ALL_SCORE;
+                }
+                else
+                {
+                    return score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[m_playerTwo.score];
+                }
+                
             }
             else
             {
