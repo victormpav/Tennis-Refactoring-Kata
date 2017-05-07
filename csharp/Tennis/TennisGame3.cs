@@ -66,11 +66,15 @@ namespace Tennis
         public void WonPoint(string playerName)
         {
             if (playerName == PLAYER_ONE_NAME)
-                m_playerOne.score += SINGLE_POINT;
+                IncreaseScore(m_playerOne);
             else
-                m_playerTwo.score += SINGLE_POINT;
+                IncreaseScore(m_playerTwo);
         }
 
+        private void IncreaseScore(Player player)
+        {
+            player.score += SINGLE_POINT;
+        }
     }
 }
 
