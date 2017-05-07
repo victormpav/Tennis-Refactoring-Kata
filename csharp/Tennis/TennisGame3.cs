@@ -38,13 +38,14 @@ namespace Tennis
                 score = SCORE_NAMES_MAPPING[m_playerOne.score];
                 if (AreTied())
                 {
-                    return score + ALL_SCORE;
+                    score += ALL_SCORE;
                 }
                 else
                 {
-                    return score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[m_playerTwo.score];
+                    score += SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[m_playerTwo.score];
                 }
-                
+
+                return score;
             }
             else
             {
