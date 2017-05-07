@@ -44,16 +44,28 @@ namespace Tennis
                 {
                     score += SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[m_playerTwo.score];
                 }
-
-                return score;
             }
             else
             {
                 if (AreTied())
-                    return DEUCE_SCORE;
-                score = m_playerOne.score > m_playerTwo.score ? m_playerOne.name : m_playerTwo.name;
-                return ((m_playerOne.score - m_playerTwo.score) * (m_playerOne.score - m_playerTwo.score) == 1) ? ADVANTAGE_SCORE + score : WINER_MATCH + score;
+                {
+                    score = DEUCE_SCORE;
+                }
+                else
+                {
+                    score = m_playerOne.score > m_playerTwo.score ? m_playerOne.name : m_playerTwo.name;
+                    if ((m_playerOne.score - m_playerTwo.score) * (m_playerOne.score - m_playerTwo.score) == 1)
+                    {
+                        score = ADVANTAGE_SCORE + score;
+                    }
+                    else
+                    {
+                        score = WINER_MATCH + score;
+                    }
+                }
             }
+
+            return score;
         }
 
         public bool PlayersAreNotTiedAtFourty()
