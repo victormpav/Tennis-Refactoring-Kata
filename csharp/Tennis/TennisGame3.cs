@@ -1,3 +1,5 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
@@ -53,19 +55,41 @@ namespace Tennis
                 }
                 else
                 {
-                    score = playerOne.score > playerTwo.score ? playerOne.name : playerTwo.name;
-                    if ((playerOne.score - playerTwo.score) * (playerOne.score - playerTwo.score) == 1)
+                    Player playerWithHighScore = GetPlayerWithHighScore(playerOne, playerTwo);
+                    String highestScorePlayerName = playerWithHighScore.name;
+                    if (AbsoluteDiffrenceBetweenPlayers(playerOne, playerTwo) == 1)
                     {
-                        score = ADVANTAGE_SCORE + score;
+                        score = ADVANTAGE_SCORE + highestScorePlayerName;
                     }
                     else
                     {
-                        score = WINER_MATCH + score;
+                        score = WINER_MATCH + highestScorePlayerName;
                     }
                 }
             }
 
             return score;
+        }
+
+        private int AbsoluteDiffrenceBetweenPlayers(Player thePlayerOne, Player thePlayerTwo)
+        {
+            return Math.Abs(thePlayerOne.score - thePlayerTwo.score);
+        }
+
+        private Player GetPlayerWithHighScore(Player thePlayerOne, Player thePlayerTwo)
+        {
+            Player player;
+
+            if (thePlayerOne.score > thePlayerTwo.score)
+            {
+                player = thePlayerOne;
+            }
+            else
+            {
+                player = thePlayerTwo;
+            }
+
+            return player;
         }
 
         public bool PlayersAreNotTiedAtFourty()
