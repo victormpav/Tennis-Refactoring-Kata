@@ -16,5 +16,10 @@ namespace Tennis
         {
             score += SINGLE_POINT;
         }
+
+        public bool IsTiedWith(Player player)
+        {
+            return score == player.score;
+        }
     }
 }
