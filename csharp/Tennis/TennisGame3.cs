@@ -19,7 +19,6 @@ namespace Tennis
 
         private const string PLAYER_ONE_NAME = "player1";
         private const int ADVANTAGE_THRESHOLD_POINTS = 4;
-        private const int SINGLE_POINT = 1;
         private const int FORTY_POINTS = 3;
 
         private readonly Player m_playerOne;
@@ -66,14 +65,9 @@ namespace Tennis
         public void WonPoint(string playerName)
         {
             if (playerName == PLAYER_ONE_NAME)
-                IncreaseScore(m_playerOne);
+                m_playerOne.IncreaseScore();
             else
-                IncreaseScore(m_playerTwo);
-        }
-
-        private void IncreaseScore(Player player)
-        {
-            player.score += SINGLE_POINT;
+                m_playerTwo.IncreaseScore();
         }
     }
 }
