@@ -4,6 +4,8 @@ namespace Tennis
 {
     public class Match
     {
+        private const int FORTY_POINTS = 3;
+
         public readonly Player playerOne;
         public readonly Player playerTwo;
 
@@ -26,6 +28,17 @@ namespace Tennis
         public bool Tied()
         {
             return playerOne.score == playerTwo.score;
+        }
+
+        public bool TiedAtFourtyOrMore()
+        {
+            bool playersScoreFortyOrMore = playerOne.score >= FORTY_POINTS && playerTwo.score >= FORTY_POINTS;
+            return Tied() && playersScoreFortyOrMore;
+        }
+
+        public bool AtLeastOnePlayerHasMoreThanForty()
+        {
+            return (playerOne.score > FORTY_POINTS) || (playerTwo.score > FORTY_POINTS);
         }
     }
 }

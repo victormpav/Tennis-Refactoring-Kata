@@ -20,7 +20,6 @@ namespace Tennis
         private const string WINER_MATCH = "Win for ";
 
         private const string PLAYER_ONE_NAME = "player1";
-        private const int FORTY_POINTS = 3;
 
         private readonly Player playerOne;
         private readonly Player playerTwo;
@@ -40,7 +39,7 @@ namespace Tennis
 
             if (match.Tied())
             {
-                if ((AtLeastOnePlayerHasMoreThanFortyPoints(playerOne, playerTwo)) || PlayersTiedAtFourty(playerOne, playerTwo))
+                if (match.TiedAtFourtyOrMore())
                 {
                     score = DEUCE_SCORE;
                 }
@@ -49,7 +48,7 @@ namespace Tennis
                     score = SCORE_NAMES_MAPPING[playerOne.score] + ALL_SCORE;
                 }
             }
-            else if ((AtLeastOnePlayerHasMoreThanFortyPoints(playerOne, playerTwo)) || PlayersTiedAtFourty(playerOne, playerTwo))
+            else if (match.AtLeastOnePlayerHasMoreThanForty())
             {
                 Player playerWithHighScore = match.PlayerWithHighScore();
                 String highestScorePlayerName = playerWithHighScore.name;
@@ -61,7 +60,6 @@ namespace Tennis
                 {
                     score = WINER_MATCH + highestScorePlayerName;
                 }
-                
             }
             else
             {
@@ -73,16 +71,6 @@ namespace Tennis
 
 
 
-
-        public bool PlayersTiedAtFourty(Player thePlayerOne, Player thePlayerTwo)
-        {
-            return (thePlayerOne.score == FORTY_POINTS && thePlayerTwo.score == FORTY_POINTS);
-        }
-
-        private bool AtLeastOnePlayerHasMoreThanFortyPoints(Player thePlayerOne, Player thePlayerTwo)
-        {
-            return (thePlayerOne.score > FORTY_POINTS) || (thePlayerTwo.score > FORTY_POINTS);
-        }
 
         public void WonPoint(string playerName)
         {
