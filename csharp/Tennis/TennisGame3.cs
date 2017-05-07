@@ -18,8 +18,9 @@ namespace Tennis
         private const string WINER_MATCH = "Win for ";
 
         private const string PLAYER_ONE_NAME = "player1";
-        private const int FORTY_POINT_SCORE = 4;
-        private const int POINT = 1;
+        private const int ADVANTAGE_THRESHOLD_POINTS = 4;
+        private const int SINGLE_POINT = 1;
+        private const int FORTY_POINTS = 3;
 
         private int playerTwoScore;
         private int playerOneScore;
@@ -36,7 +37,7 @@ namespace Tennis
         public string GetScore()
         {
             string score;
-            if ((PlayerScoresAreBelowFour()) && PlayersScoresSumAreBelowSix())
+            if ((PlayerScoresAreBelowAdvantageThreshold()) && PlayersAreNotTiedAtFourty())
             {
                 score = SCORE_NAMES_MAPPING[playerOneScore];
                 return (AreTied()) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwoScore];
@@ -50,14 +51,14 @@ namespace Tennis
             }
         }
 
-        private bool PlayersScoresSumAreBelowSix()
+        public bool PlayersAreNotTiedAtFourty()
         {
-            return (playerOneScore + playerTwoScore < 6);
+            return !(playerOneScore == FORTY_POINTS && playerTwoScore == FORTY_POINTS);
         }
 
-        private bool PlayerScoresAreBelowFour()
+        private bool PlayerScoresAreBelowAdvantageThreshold()
         {
-            return (playerOneScore < FORTY_POINT_SCORE) && (playerTwoScore < FORTY_POINT_SCORE);
+            return (playerOneScore < ADVANTAGE_THRESHOLD_POINTS) && (playerTwoScore < ADVANTAGE_THRESHOLD_POINTS);
         }
 
         private bool AreTied()
@@ -68,9 +69,9 @@ namespace Tennis
         public void WonPoint(string playerName)
         {
             if (playerName == PLAYER_ONE_NAME)
-                this.playerOneScore += POINT;
+                this.playerOneScore += SINGLE_POINT;
             else
-                this.playerTwoScore += POINT;
+                this.playerTwoScore += SINGLE_POINT;
         }
 
     }
