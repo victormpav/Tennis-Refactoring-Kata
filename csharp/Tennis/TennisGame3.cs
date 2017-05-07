@@ -22,15 +22,13 @@ namespace Tennis
         private const int SINGLE_POINT = 1;
         private const int FORTY_POINTS = 3;
 
-        private int playerTwoScore;
-
-        private string playerTwoNameS;
-        private readonly PlayerOne m_playerOne;
+        private readonly Player m_playerOne;
+        private readonly Player m_playerTwo;
 
         public TennisGame3(string player1Name, string player2Name)
         {
-            m_playerOne = new PlayerOne(player1Name);
-            this.playerTwoNameS = player2Name;
+            m_playerOne = new Player(player1Name);
+            m_playerTwo = new Player(player2Name);
         }
 
         public string GetScore()
@@ -39,30 +37,30 @@ namespace Tennis
             if ((PlayerScoresAreBelowAdvantageThreshold()) && PlayersAreNotTiedAtFourty())
             {
                 score = SCORE_NAMES_MAPPING[m_playerOne.score];
-                return (AreTied()) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwoScore];
+                return (AreTied()) ? score + ALL_SCORE : score + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[m_playerTwo.playerTwoScore];
             }
             else
             {
                 if (AreTied())
                     return DEUCE_SCORE;
-                score = m_playerOne.score > playerTwoScore ? m_playerOne.name : playerTwoNameS;
-                return ((m_playerOne.score - playerTwoScore) * (m_playerOne.score - playerTwoScore) == 1) ? ADVANTAGE_SCORE + score : WINER_MATCH + score;
+                score = m_playerOne.score > m_playerTwo.playerTwoScore ? m_playerOne.name : m_playerTwo.playerTwoNameS;
+                return ((m_playerOne.score - m_playerTwo.playerTwoScore) * (m_playerOne.score - m_playerTwo.playerTwoScore) == 1) ? ADVANTAGE_SCORE + score : WINER_MATCH + score;
             }
         }
 
         public bool PlayersAreNotTiedAtFourty()
         {
-            return !(m_playerOne.score == FORTY_POINTS && playerTwoScore == FORTY_POINTS);
+            return !(m_playerOne.score == FORTY_POINTS && m_playerTwo.playerTwoScore == FORTY_POINTS);
         }
 
         private bool PlayerScoresAreBelowAdvantageThreshold()
         {
-            return (m_playerOne.score < ADVANTAGE_THRESHOLD_POINTS) && (playerTwoScore < ADVANTAGE_THRESHOLD_POINTS);
+            return (m_playerOne.score < ADVANTAGE_THRESHOLD_POINTS) && (m_playerTwo.playerTwoScore < ADVANTAGE_THRESHOLD_POINTS);
         }
 
         private bool AreTied()
         {
-            return m_playerOne.score == playerTwoScore;
+            return m_playerOne.score == m_playerTwo.playerTwoScore;
         }
 
         public void WonPoint(string playerName)
@@ -70,7 +68,7 @@ namespace Tennis
             if (playerName == PLAYER_ONE_NAME)
                 m_playerOne.score += SINGLE_POINT;
             else
-                this.playerTwoScore += SINGLE_POINT;
+                m_playerTwo.playerTwoScore += SINGLE_POINT;
         }
 
     }
