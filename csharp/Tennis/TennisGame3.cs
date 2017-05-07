@@ -20,7 +20,6 @@ namespace Tennis
         private const string WINER_MATCH = "Win for ";
 
         private const string PLAYER_ONE_NAME = "player1";
-        private const int ADVANTAGE_THRESHOLD_POINTS = 4;
         private const int FORTY_POINTS = 3;
 
         private readonly Player playerOne;
@@ -38,19 +37,7 @@ namespace Tennis
         public string GetScore()
         {
             string score;
-            if ((PlayerScoresAreBelowAdvantageThreshold(playerOne, playerTwo)) && PlayersAreNotTiedAtFourty(playerOne, playerTwo))
-            {
-                score = SCORE_NAMES_MAPPING[playerOne.score];
-                if (match.Tied())
-                {
-                    score += ALL_SCORE;
-                }
-                else
-                {
-                    score += SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwo.score];
-                }
-            }
-            else
+            if ((AtLeastOnePlayerHasMoreThanFortyPoints(playerOne, playerTwo)) || PlayersTiedAtFourty(playerOne, playerTwo))
             {
                 if (match.Tied())
                 {
@@ -70,6 +57,18 @@ namespace Tennis
                     }
                 }
             }
+            else
+            {
+                score = SCORE_NAMES_MAPPING[playerOne.score];
+                if (match.Tied())
+                {
+                    score += ALL_SCORE;
+                }
+                else
+                {
+                    score += SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwo.score];
+                }
+            }
 
             return score;
         }
@@ -77,14 +76,14 @@ namespace Tennis
 
 
 
-        public bool PlayersAreNotTiedAtFourty(Player thePlayerOne, Player thePlayerTwo)
+        public bool PlayersTiedAtFourty(Player thePlayerOne, Player thePlayerTwo)
         {
-            return !(thePlayerOne.score == FORTY_POINTS && thePlayerTwo.score == FORTY_POINTS);
+            return (thePlayerOne.score == FORTY_POINTS && thePlayerTwo.score == FORTY_POINTS);
         }
 
-        private bool PlayerScoresAreBelowAdvantageThreshold(Player thePlayerOne, Player thePlayerTwo)
+        private bool AtLeastOnePlayerHasMoreThanFortyPoints(Player thePlayerOne, Player thePlayerTwo)
         {
-            return (thePlayerOne.score < ADVANTAGE_THRESHOLD_POINTS) && (thePlayerTwo.score < ADVANTAGE_THRESHOLD_POINTS);
+            return (thePlayerOne.score > FORTY_POINTS) || (thePlayerTwo.score > FORTY_POINTS);
         }
 
         public void WonPoint(string playerName)
