@@ -7,7 +7,7 @@
 
         }
 
-        public string GetScore()
+        public override string Score()
         {
             string score;
 

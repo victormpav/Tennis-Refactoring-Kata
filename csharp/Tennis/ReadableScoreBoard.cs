@@ -25,15 +25,19 @@
             this.match = match;
         }
 
-        public string GetScore()
+        public virtual string Score()
         {
+            ReadableScoreBoard readableScoreBoard;
             if (match.Tied())
             {
-                ReadableScoreBoardTiedMatch readableScoreBoard = new ReadableScoreBoardTiedMatch(match);
-                return readableScoreBoard.GetScore();
+                readableScoreBoard = new ReadableScoreBoardTiedMatch(match);
+            }
+            else
+            {
+                readableScoreBoard = new ReadableScoreBoardNonTiedMatch(match);
             }
 
-            return string.Empty;
+            return readableScoreBoard.Score();;
         }
     }
 }
