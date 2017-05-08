@@ -15,6 +15,16 @@ namespace Tennis
             this.playerTwo = playerTwo;
         }
 
+        public int GetPlayerOneScore()
+        {
+            return playerOne.score;
+        }
+
+        public int GetPlayerTwoScore()
+        {
+            return playerTwo.score;
+        }
+
         public int AbsoluteDiffrenceBetweenPlayers()
         {
             return Math.Abs(playerOne.score - playerTwo.score);

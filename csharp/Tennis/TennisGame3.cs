@@ -39,7 +39,8 @@ namespace Tennis
 
             if (match.Tied())
             {
-                score = GetTiedScore();
+                ReadableScoreBoard readableScoreBoard = new ReadableScoreBoard(match);
+                score = readableScoreBoard.GetScore();
             }
             else
             {
