@@ -39,37 +39,59 @@ namespace Tennis
 
             if (match.Tied())
             {
-                if (match.TiedAtFourtyOrMore())
-                {
-                    score = DEUCE_SCORE;
-                }
-                else
-                {
-                    score = SCORE_NAMES_MAPPING[playerOne.score] + ALL_SCORE;
-                }
-            }
-            else if (match.AtLeastOnePlayerHasMoreThanForty())
-            {
-                Player playerWithHighScore = match.PlayerWithHighScore();
-                String highestScorePlayerName = playerWithHighScore.name;
-                if (match.AbsoluteDiffrenceBetweenPlayers() == 1)
-                {
-                    score = ADVANTAGE_SCORE + highestScorePlayerName;
-                }
-                else
-                {
-                    score = WINER_MATCH + highestScorePlayerName;
-                }
+                score = GetTiedScore();
             }
             else
             {
-                score = SCORE_NAMES_MAPPING[playerOne.score] + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwo.score];
+                if (match.AtLeastOnePlayerHasMoreThanForty())
+                {
+                    score = GetScoreWithPlayerThatHaveMoreThanForty();
+                }
+                else
+                {
+                    score = GetScoreWithScoresUnderForty();
+                }
             }
 
             return score;
         }
 
+        private string GetScoreWithScoresUnderForty()
+        {
+            string score;
+            score = SCORE_NAMES_MAPPING[playerOne.score] + SOCORE_SEPARATOR + SCORE_NAMES_MAPPING[playerTwo.score];
+            return score;
+        }
 
+        private string GetScoreWithPlayerThatHaveMoreThanForty()
+        {
+            string score;
+            Player playerWithHighScore = match.PlayerWithHighScore();
+            String highestScorePlayerName = playerWithHighScore.name;
+            if (match.AbsoluteDiffrenceBetweenPlayers() == 1)
+            {
+                score = ADVANTAGE_SCORE + highestScorePlayerName;
+            }
+            else
+            {
+                score = WINER_MATCH + highestScorePlayerName;
+            }
+            return score;
+        }
+
+        private string GetTiedScore()
+        {
+            string score;
+            if (match.TiedAtFourtyOrMore())
+            {
+                score = DEUCE_SCORE;
+            }
+            else
+            {
+                score = SCORE_NAMES_MAPPING[playerOne.score] + ALL_SCORE;
+            }
+            return score;
+        }
 
 
         public void WonPoint(string playerName)
