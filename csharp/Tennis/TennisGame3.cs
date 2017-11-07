@@ -1,44 +1,63 @@
+using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
     {
-        private int p2;
-        private int p1;
-        private string p1N;
-        private string p2N;
+        private readonly Player playerOne;
+        private readonly Player playerTwo;
+        private TennisGameScores tennisGameScores;
+
+        private const string DEUCE = "Deuce";
+        private const string ALL = "All";
+        private const string ADVANTAGE = "Advantage";
+        private const string WIN_FOR = "Win for";
 
         public TennisGame3(string player1Name, string player2Name)
         {
-            this.p1N = player1Name;
-            this.p2N = player2Name;
+            playerOne = new Player(player1Name);
+            playerTwo = new Player(player2Name);
+            tennisGameScores = new TennisGameScores();
         }
 
         public string GetScore()
         {
-            string s;
-            if ((p1 < 4 && p2 < 4) && (p1 + p2 < 6))
+            var bothPlayersUnderMaxScore = (playerOne.IsUnderMaxScore() && playerTwo.IsUnderMaxScore());
+            var bothPlayersSumUnderSix = (playerOne.Score + playerTwo.Score < 6);
+
+            if (playerOne.SameScoreAsPlayer(playerTwo))
             {
-                string[] p = { "Love", "Fifteen", "Thirty", "Forty" };
-                s = p[p1];
-                return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
+                if (bothPlayersUnderMaxScore && bothPlayersSumUnderSix)
+                {
+                    return tennisGameScores.GetScore(playerOne.Score) + "-" + ALL;
+                }
+
+                return DEUCE;
             }
-            else
+
+            if (bothPlayersUnderMaxScore && bothPlayersSumUnderSix)
             {
-                if (p1 == p2)
-                    return "Deuce";
-                s = p1 > p2 ? p1N : p2N;
-                return ((p1 - p2) * (p1 - p2) == 1) ? "Advantage " + s : "Win for " + s;
+                return tennisGameScores.GetScore(playerOne.Score) + "-" + tennisGameScores.GetScore(playerTwo.Score);
             }
+
+            string playerNameBestScore = playerOne.Score > playerTwo.Score ? playerOne.Name : playerTwo.Name;
+
+            if (Math.Abs(playerOne.Score - playerTwo.Score) == 1)
+            {
+                return ADVANTAGE + " " + playerNameBestScore;
+            }
+
+            return WIN_FOR + " " + playerNameBestScore;
         }
 
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                this.p1 += 1;
+                playerOne.IncreaseScore();
             else
-                this.p2 += 1;
+                playerTwo.IncreaseScore();
         }
-
     }
 }
-
