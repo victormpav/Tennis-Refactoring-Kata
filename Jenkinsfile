@@ -1,23 +1,24 @@
 pipeline {
   agent any
   stages {
-    stage('a') {
-      steps {
-        sleep 1
-      }
-    }
-    stage('b') {
+    stage('Stage 1') {
       parallel {
-        stage('b') {
+        stage('Step 1') {
           steps {
-            echo 'a'
+            echo 'step 1: printMsg'
           }
         }
-        stage('') {
+        stage('Step 2') {
           steps {
             input 'hello'
+            echo 'b'
           }
         }
+      }
+    }
+    stage('Stage 2') {
+      steps {
+        echo 'Finished'
       }
     }
   }
